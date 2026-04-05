@@ -1,9 +1,16 @@
 from flask import Flask
+from .config import Config
+from .extensions import db, bcrypt, jwt
 
 def create_app():
     app = Flask(__name__)
+    app.config.from_object(Config)
 
-    from .routes import main
-    app.register_blueprint(main)
+    db.init_app(app)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
+
+    from .routes.auth_routes import auth_bp
+    app.register_blueprint(auth_bp, url_prefix="/auth")
 
     return app

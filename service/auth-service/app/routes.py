@@ -4,7 +4,7 @@ main = Blueprint("main", __name__)
 
 @main.route("/health")
 def health():
-    return jsonify({"status": "ok"})
+    return jsonify({"status": "green"})
 
 @main.route("/test")
 def test():
