@@ -1,10 +1,19 @@
+import os
 from flask import Flask
-from .config import Config
+from flask_cors import CORS
 from .extensions import db, bcrypt, jwt
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+
+    # ✅ Load config from env (not from Config class anymore)
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET", "super-secret-key")
+
+    print("DB URL:", app.config["SQLALCHEMY_DATABASE_URI"])  # DEBUG
+
+    CORS(app)
 
     db.init_app(app)
     bcrypt.init_app(app)
