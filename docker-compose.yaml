@@ -1,0 +1,20 @@
+services:
+
+  auth-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: auth_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+
+  auth-service:
+    build: ./service/auth-service
+    ports:
+      - "5001:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@auth-db:5432/auth_db
+      JWT_SECRET: super-secret
+    depends_on:
+      - auth-db
