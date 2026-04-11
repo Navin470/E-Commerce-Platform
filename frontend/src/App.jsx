@@ -1,23 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
+import { Toaster } from "react-hot-toast";
 import { CartProvider } from "./context/CartContext";
-import Header from "./components/Header";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </Router>
+        <BrowserRouter>
+          <AppRoutes />
+          <Toaster position="top-right" reverseOrder={false} />
+        </BrowserRouter>
       </CartProvider>
     </AuthProvider>
   );

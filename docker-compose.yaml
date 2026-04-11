@@ -1,5 +1,24 @@
 services:
 
+  # admin-db:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: admin_db
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #   ports:
+  #     - "5437:5432"
+
+  # admin-service:
+  #   build: ./service/admin-service
+  #   ports:
+  #     - "5001:5001"
+  #   environment:
+  #     DATABASE_URL: postgresql://postgres:postgres@admin-db:5432/admin_db
+  #     JWT_SECRET: super-secret-key-change-in-production
+  #   depends_on:
+  #     - admin-db
+
   auth-db:
     image: postgres:15
     environment:
@@ -12,28 +31,66 @@ services:
   auth-service:
     build: ./service/auth-service
     ports:
-      - "5001:5000"
+      - "5002:5002"
     environment:
       DATABASE_URL: postgresql://postgres:postgres@auth-db:5432/auth_db
       JWT_SECRET: super-secret
     depends_on:
       - auth-db
   
-  # product-db:
+  # order-db:
   #   image: postgres:15
   #   environment:
-  #     POSTGRES_DB: product_db
+  #     POSTGRES_DB: order_db
   #     POSTGRES_USER: postgres
   #     POSTGRES_PASSWORD: postgres
   #   ports:
-  #     - "5434:5432"
-
-  # product-service:
-  #   build: ./service/product-service
-  #   ports:
-  #     - "5003:5000"
-  #   depends_on:
-  #     - product-db
-  #   environment:
-  #     - DATABASE_URL=postgresql://postgres:postgres@product-db:5432/product_db
+  #     - "5435:5432"
   
+  # order-service:
+  #   build: ./service/order-service
+  #   ports:
+  #     - "5003:5003"
+  #   environment:
+  #     DATABASE_URL: postgresql://postgres:postgres@order-db:5432/order_db
+  #     JWT_SECRET: super-secret-key-change-in-production
+  #   depends_on:
+  #     - order-db
+
+  product-service:
+    build: ./service/product-service
+    ports:
+      - "5004:5004"
+    depends_on:
+      - product-db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@product-db:5432/product_db
+
+  product-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+
+
+  # user-db:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: user_db
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #   ports:
+  #     - "5436:5432"
+
+  # user-service:
+  #   build: ./service/user-service
+  #   ports:
+  #     - "5005:5005"
+  #   environment:
+  #     DATABASE_URL: postgresql://postgres:postgres@user-db:5432/user_db
+  #     JWT_SECRET: super-secret-key-change-in-production
+  #   depends_on:
+  #     - user-db

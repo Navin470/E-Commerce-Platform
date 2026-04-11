@@ -1,29 +1,30 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import { validateToken } from "../api/authApi";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkToken = async () => {
-      const valid = await validateToken();
-      if (!valid) {
-        setUser(null);
-        localStorage.removeItem("accessToken");
-      }
-    };
-    checkToken();
-  }, []);
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("accessToken");
+  const checkAuth = async () => {
+    try {
+      const res = await validateToken();
+      setUser({ id: res.data.user_id });
+    } catch {
+      setUser(null);
+      localStorage.removeItem("token");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );
