@@ -68,3 +68,11 @@ def update_status(order_id):
         return jsonify({"error": "Order not found"}), 404
 
     return jsonify(order.to_dict())
+
+
+# Internal Endpoint -> Get ALL orders for admin service
+@order_bp.route("/internal/orders/all", methods=["GET"])
+def get_all_orders_internal():
+    from app.models.order_model import Order
+    orders = Order.query.order_by(Order.created_at.desc()).all()
+    return jsonify([o.to_dict() for o in orders])

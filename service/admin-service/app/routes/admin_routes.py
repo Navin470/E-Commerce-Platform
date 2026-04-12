@@ -75,9 +75,35 @@ def get_all_products_admin():
 @admin_bp.route("/orders", methods=["GET"])
 @jwt_required()
 def get_all_orders_admin():
+    import urllib.request
+    import json
     user_id = int(get_jwt_identity())
     if not is_user_admin(user_id):
         return jsonify({"error": "Admin access required"}), 403
 
-    # TODO: Later call order-service via HTTP
-    return jsonify({"message": "This will call order-service in future"}), 200
+    try:
+        # Fetch all orders from order-service internally
+        try:
+            req1 = urllib.request.urlopen("http://order-service:5003/order/internal/orders/all")
+            orders = json.loads(req1.read())
+        except Exception:
+            orders = []
+
+        # Fetch all user profiles from user-service internally
+        try:
+            req2 = urllib.request.urlopen("http://user-service:5005/user/internal/profiles/all")
+            profiles = json.loads(req2.read())
+        except Exception:
+            profiles = []
+
+        # Create a dictionary of profile for quick lookup
+        profile_map = {p.get("user_id"): p for p in profiles}
+
+        # Merge them
+        for order in orders:
+            order["user_profile"] = profile_map.get(order.get("user_id"), None)
+
+        return jsonify(orders), 200
+
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch admin orders: {str(e)}"}), 500

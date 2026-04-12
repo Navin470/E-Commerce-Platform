@@ -3,12 +3,15 @@ import { useState } from "react";
 import { ShoppingCart, Search, User } from "lucide-react";
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { useRef, useEffect } from "react";
 
 export default function Navbar({ onSearch }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const { cart } = useContext(CartContext);
   const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef();
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -20,6 +23,18 @@ export default function Navbar({ onSearch }) {
     setQuery(value);
     onSearch && onSearch(value);
   };
+
+  // close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b shadow-sm">
@@ -60,9 +75,51 @@ export default function Navbar({ onSearch }) {
           </button>
 
           {/* 👤 USER */}
-          <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-lg transition">
-            <User size={18} />
-            <span className="text-sm font-medium">Account</span>
+          <div className="relative" ref={dropdownRef}>
+            {/* ACCOUNT BUTTON */}
+            <div
+              onClick={() => setOpen(!open)}
+              className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-2 rounded-lg transition"
+            >
+              <User size={18} />
+              <span className="text-sm font-medium">Account</span>
+            </div>
+
+            {/* DROPDOWN */}
+            {open && (
+              <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border overflow-hidden animate-fadeIn">
+                
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 border-b"
+                >
+                  👤 My Profile
+                </button>
+
+                <button
+                  onClick={() => {
+                    navigate("/orders");
+                    setOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                >
+                  📦 My Orders
+                </button>
+
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    logout();
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-50"
+                >
+                  🚪 Logout
+                </button>
+              </div>
+            )}
           </div>
 
           {/* 🚪 LOGOUT */}
