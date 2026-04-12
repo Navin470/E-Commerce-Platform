@@ -28,7 +28,7 @@ spec:
         }
     }
     environment {
-        DOCKER_IMAGE = "navin1199/auth-service"
+        DOCKER_IMAGE = "navin1199/user-service"
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
@@ -44,7 +44,7 @@ spec:
             steps {
                 container("docker"){
                     sh """
-                        docker build -t $DOCKER_IMAGE:$DOCKER_TAG service/auth-service
+                        docker build -t $DOCKER_IMAGE:$DOCKER_TAG service/user-service
                     """
                 }
             }
