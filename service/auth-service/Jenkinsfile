@@ -1,6 +1,32 @@
 pipeline {
-    agent kubernetes
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: ci
+spec:git 
+  containers:
+  - name: docker
+    image: docker:24.0.5
+    command: ["cat"]
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
 
+  - name: jnlp
+    image: jenkins/inbound-agent:latest
+
+  volumes:
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
+'''
+        }
+    }
     environment {
         DOCKER_IMAGE = "navin1199/auth-service"
         DOCKER_TAG = "${BUILD_NUMBER}"
