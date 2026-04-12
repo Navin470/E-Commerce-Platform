@@ -44,7 +44,7 @@ spec:
             steps {
                 container("docker"){
                     sh """
-                        docker build -t $DOCKER_IMAGE:$DOCKER_TAG services/auth-service
+                        docker build -t $DOCKER_IMAGE:$DOCKER_TAG service/auth-service
                     """
                 }
             }
