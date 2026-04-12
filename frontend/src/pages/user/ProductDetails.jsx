@@ -4,7 +4,13 @@ import Navbar from "../../components/Navbar";
 import API from "../../api/axios";
 import toast from "react-hot-toast";
 
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
+
 export default function ProductDetails() {
+  const { addToCart } = useContext(CartContext);
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
 
@@ -43,7 +49,7 @@ export default function ProductDetails() {
             <img
               src={
                 product.image_url ||
-                "https://via.placeholder.com/400"
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACUCAMAAAAAoYNxAAAAS1BMVEXu7u5mZmbz8/PFxcXBwcHV1dVXV1fq6uqRkZGEhISIiIh8fHxfX19iYmL29vaWlpZ2dnanp6eurq7Pz8/c3Nxra2ufn5+3t7dwcHBypgY0AAAB0klEQVR4nO3Z7W6CMBhA4baCKLYqn3r/V7oiflTQGJssfTHn+Sdsy6F7221OKQAAAAAAAAAAAAAAAADAIpk4CYObVZQmXXNR2nUEe0iYvN3lEY6blMmln8uvJ3mXNjnm00j+ym8mvzqEZScXeZPPLkpONnnZ6XNVTAoFJ5v2bLXW635ByZXTA5c/JwpOVpsx2WbLST5ck1f7p8uykk0bvshcN8zFrhC8yibb5uGK9tY6qyeLLCv55Oy5DXpMdiirdlIsKNn4YqftMfzZsfdmfXKS96fLbrO7dl5kTLDUcpLrtR4PCD37Q6lQ1epxTUxyrW/scdJsVO034f03JBnJZl9bHTY/b7naWdfdDw4RyaaoguKhOTjYjLrctF0mZpULFU7FyJ2bx4ddH8d12fgc6ZP9cVDbSfJjnv0au9tz+Hn2ryUkT6bi2ucuzaboHzedvsyGgORqHjzOxlDWPz/OMBtpk7dDlHuZ7Gd35dd4ejNLnVwO3/g3ycPsHqYj4/QpdbLq3/SOfa+ctmkHo3+x8z5xKd9GLF1EsU76zmcZU5w4+d3OE5y8uFVWy0uOXuVkxUo1WZTm81f+N5H/Q0s2Fwn3EAAAAAAAAAAAAAAAAAD8gj/cFxiKAXB8nAAAAABJRU5ErkJggg=="
               }
               alt={product.name}
               className="w-full max-h-96 object-cover rounded-xl shadow-md hover:scale-105 transition"
@@ -81,13 +87,29 @@ export default function ProductDetails() {
 
             {/* 🛒 BUTTONS */}
             <div className="flex gap-4">
-              <button className="flex-1 bg-yellow-500 text-white py-3 rounded-xl font-semibold hover:bg-yellow-600 transition">
+  
+              {/* 🛒 ADD TO CART */}
+              <button
+                onClick={() => {
+                  addToCart(product);
+                  toast.success("Added to cart 🛒");
+                }}
+                className="flex-1 bg-yellow-500 text-white py-3 rounded-xl font-semibold hover:bg-yellow-600 transition"
+              >
                 Add to Cart
               </button>
 
-              <button className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+              {/* ⚡ BUY NOW */}
+              <button
+                onClick={() => {
+                  addToCart(product);
+                  navigate("/cart");
+                }}
+                className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
+              >
                 Buy Now
               </button>
+
             </div>
           </div>
         </div>

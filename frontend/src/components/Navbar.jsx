@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ShoppingCart, Search, User } from "lucide-react";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 export default function Navbar({ onSearch }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const { cart } = useContext(CartContext);
+  const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -45,10 +49,13 @@ export default function Navbar({ onSearch }) {
         <div className="flex items-center gap-4">
     
           {/* 🛒 CART */}
-          <button className="relative p-2 rounded-full hover:bg-gray-100 transition">
+          <button
+            onClick={() => navigate("/cart")}
+            className="relative p-2 rounded-full hover:bg-gray-100 transition"
+          >
             <ShoppingCart size={20} />
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 rounded-full">
-              0
+              {totalItems}
             </span>
           </button>
 

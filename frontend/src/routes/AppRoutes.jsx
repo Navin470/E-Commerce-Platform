@@ -5,6 +5,7 @@ import Home from "../pages/user/Home";
 import ProductDetails from "../pages/user/ProductDetails";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Cart from "../pages/user/Cart";
+import OrderSuccess from "../pages/user/OrderSuccess";
 
 const AppRoutes = () => {
   return (
@@ -35,8 +36,16 @@ const AppRoutes = () => {
         path="/cart"
         element={
             <ProtectedRoute>
-            <Cart />
+              <Cart />
             </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/order-success"
+        element={
+          <ProtectedRoute>
+            <OrderSuccess />
+          </ProtectedRoute>
         }
       />
     </Routes>

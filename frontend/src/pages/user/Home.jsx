@@ -70,7 +70,7 @@ export default function Home() {
                 {/* 🖼️ IMAGE */}
                 <div className="overflow-hidden">
                   <img
-                    src={p.image_url || "https://via.placeholder.com/150"}
+                    src={p.image_url || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALIAAACUCAMAAAAAoYNxAAAAS1BMVEXu7u5mZmbz8/PFxcXBwcHV1dVXV1fq6uqRkZGEhISIiIh8fHxfX19iYmL29vaWlpZ2dnanp6eurq7Pz8/c3Nxra2ufn5+3t7dwcHBypgY0AAAB0klEQVR4nO3Z7W6CMBhA4baCKLYqn3r/V7oiflTQGJssfTHn+Sdsy6F7221OKQAAAAAAAAAAAAAAAADAIpk4CYObVZQmXXNR2nUEe0iYvN3lEY6blMmln8uvJ3mXNjnm00j+ym8mvzqEZScXeZPPLkpONnnZ6XNVTAoFJ5v2bLXW635ByZXTA5c/JwpOVpsx2WbLST5ck1f7p8uykk0bvshcN8zFrhC8yibb5uGK9tY6qyeLLCv55Oy5DXpMdiirdlIsKNn4YqftMfzZsfdmfXKS96fLbrO7dl5kTLDUcpLrtR4PCD37Q6lQ1epxTUxyrW/scdJsVO034f03JBnJZl9bHTY/b7naWdfdDw4RyaaoguKhOTjYjLrctF0mZpULFU7FyJ2bx4ddH8d12fgc6ZP9cVDbSfJjnv0au9tz+Hn2ryUkT6bi2ucuzaboHzedvsyGgORqHjzOxlDWPz/OMBtpk7dDlHuZ7Gd35dd4ejNLnVwO3/g3ycPsHqYj4/QpdbLq3/SOfa+ctmkHo3+x8z5xKd9GLF1EsU76zmcZU5w4+d3OE5y8uFVWy0uOXuVkxUo1WZTm81f+N5H/Q0s2Fwn3EAAAAAAAAAAAAAAAAAD8gj/cFxiKAXB8nAAAAABJRU5ErkJggg=="}
                     alt={p.name}
                     className="w-full h-48 object-cover transform group-hover:scale-110 transition duration-300"
                   />
