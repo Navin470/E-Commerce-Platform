@@ -36,7 +36,7 @@ spec:
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/Navin470/E-Commerce-Platform.git'
+                git branch: 'master', url: 'https://github.com/Navin470/E-Commerce-Platform.git'
             }
         }
 
