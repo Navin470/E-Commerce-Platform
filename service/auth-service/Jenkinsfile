@@ -42,7 +42,7 @@ spec:
 
         stage('Build Docker Image') {
             steps {
-                containers("docker"){
+                container("docker"){
                     sh """
                         docker build -t $DOCKER_IMAGE:$DOCKER_TAG services/auth-service
                     """
@@ -52,7 +52,7 @@ spec:
 
         stage('Login to DockerHub') {
             steps {
-                containers("docker"){
+                container("docker"){
                     withCredentials([usernamePassword(
                         credentialsId: 'dockerhub-creds',
                         usernameVariable: 'USERNAME',
@@ -68,7 +68,7 @@ spec:
 
         stage('Push Docker Image') {
             steps {
-                containers("docker"){
+                container("docker"){
                 sh """
                     docker push $DOCKER_IMAGE:$DOCKER_TAG
                 """
@@ -78,7 +78,7 @@ spec:
 
         stage('Cleanup') {
             steps {
-                containers("docker"){
+                container("docker"){
                     sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG || true"
                 }
             }
