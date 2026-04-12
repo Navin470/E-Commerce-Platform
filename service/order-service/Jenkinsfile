@@ -1,0 +1,96 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: ci
+spec: 
+  containers:
+  - name: docker
+    image: docker:24.0.5
+    command: ["cat"]
+    tty: true
+    volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
+
+  - name: jnlp
+    image: jenkins/inbound-agent:latest
+
+  volumes:
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
+'''
+        }
+    }
+    environment {
+        DOCKER_IMAGE = "navin1199/order-service"
+        DOCKER_TAG = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'master', url: 'https://github.com/Navin470/E-Commerce-Platform.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                container("docker"){
+                    sh """
+                        docker build -t $DOCKER_IMAGE:$DOCKER_TAG service/order-service
+                    """
+                }
+            }
+        }
+
+        stage('Login to DockerHub') {
+            steps {
+                container("docker"){
+                    withCredentials([usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'PASSWORD'
+                    )]) {
+                        sh """
+                            echo $PASSWORD | docker login -u $USERNAME --password-stdin
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                container("docker"){
+                sh """
+                    docker push $DOCKER_IMAGE:$DOCKER_TAG
+                """
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                container("docker"){
+                    sh "docker rmi $DOCKER_IMAGE:$DOCKER_TAG || true"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Admin Service Build & Push Successful"
+        }
+        failure {
+            echo "Build Failed"
+        }
+    }
+}
