@@ -49,3 +49,10 @@ def get_profile_by_id(profile_id):
     if not profile:
         return jsonify({"error": "Profile not found"}), 404
     return jsonify(profile.to_dict())
+
+# Internal Endpoint -> Get ALL profiles for admin service
+@user_bp.route("/internal/profiles/all", methods=["GET"])
+def get_all_profiles_internal():
+    from app.models.user_model import UserProfile
+    profiles = UserProfile.query.all()
+    return jsonify([p.to_dict() for p in profiles])

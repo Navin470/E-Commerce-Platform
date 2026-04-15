@@ -13,7 +13,5 @@ def create_app():
 
     from .routes.product_routes import product_bp
     app.register_blueprint(product_bp, url_prefix="/product")
-    with app.app_context():
-        db.create_all()
 
     return app
