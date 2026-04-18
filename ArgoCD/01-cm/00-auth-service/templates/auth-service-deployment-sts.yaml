@@ -44,5 +44,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80         # Port accessible within the cluster (ClusterIP)
-      targetPort: 3002 # Port the application is listening on inside the container
-      nodePort: 5002   # External port accessible via the Worker Node IP
+      targetPort: 5002 # Port the application is listening on inside the container
+      nodePort: 30002   # External port accessible via the Worker Node IP
