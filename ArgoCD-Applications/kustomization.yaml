@@ -4,10 +4,6 @@ kind: Kustomization
 # 1. Point to your base manifests
 resources:
   - auth-service.yaml
-  - auth-service-config.yaml
-  - auth-service-deployment-sts
-  - secret-auth.yaml
-  - service-auth
 
 # 2. Add a prefix to all resources (e.g., dev-frontend-service)
 # namePrefix: dev-
