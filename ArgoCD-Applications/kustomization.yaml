@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# 1. Point to your base manifests
+resources:
+  - auth-service.yaml
+
+# 2. Add a prefix to all resources (e.g., dev-frontend-service)
+# namePrefix: dev-
+
+# 3. Add common labels to every object
+# commonLabels:
+#   variant: development
+#   app: ecommerce
+
+# 4. Update the image tag automatically
+# images:
+#   - name: navin1199/frontend-service
+#     newName: navin1199/frontend-service
+#     newTag: "v1.0.5" # This is what you update via CI/CD
+
+# 5. Patch specific fields (e.g., change replicas for dev)
+# patches:
+#   - target:
+#       kind: Deployment
+#       name: frontend-service
+#     patch: |-
+#       - op: replace
+#         path: /spec/replicas
+#         value: 1
