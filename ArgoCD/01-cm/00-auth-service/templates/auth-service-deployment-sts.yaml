@@ -19,7 +19,7 @@ spec:
       - name: auth-container
         image: navin1199/auth-service:16
         ports:
-        - containerPort: 3002
+        - containerPort: 5002
         env:
           # 1. Get User from Secret
           - name: DB_USER
@@ -73,4 +73,4 @@ spec:
     - protocol: TCP
       port: 80             # Internal Service Port
       targetPort: 5002     # Must match your Flask app containerPort
-      nodePort: 32000      # Optional: You can specify a port between 30000-32767
+      nodePort: 32000     # Optional: You can specify a port between 30000-32767
