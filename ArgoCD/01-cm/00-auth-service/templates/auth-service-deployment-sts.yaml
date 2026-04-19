@@ -71,6 +71,6 @@ spec:
     app: auth-service
   ports:
     - protocol: TCP
-      port: 80             # Internal Service Port
+      port: 5002             # Internal Service Port
       targetPort: 5002     # Must match your Flask app containerPort
       nodePort: 32000     # Optional: You can specify a port between 30000-32767
