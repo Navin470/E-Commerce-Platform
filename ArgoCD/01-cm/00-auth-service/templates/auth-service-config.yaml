@@ -4,7 +4,6 @@ metadata:
   name: auth-service-config
   namespace: ecommerce
 data:
-  NODE_ENV: "production"
+  DB_HOST: "auth_db"
+  DB_NAME: "auth_db"
   PORT: "3002"
-  # Updated from MongoDB to Postgres
-  POSTGRES_URL: "postgresql://user:password@postgres-service:5432/auth_db"
