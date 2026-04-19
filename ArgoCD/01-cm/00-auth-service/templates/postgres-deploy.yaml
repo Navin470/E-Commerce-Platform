@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-db
+  namespace: ecommerce
+  labels:
+    app: auth-db
+  annotations:
+    # Ensures the DB starts before the Auth Service in ArgoCD
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-db
+  template:
+    metadata:
+      labels:
+        app: auth-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+          # This name MUST match what you use in your app's DATABASE_URL
+          - name: POSTGRES_DB
+            value: "auth_db"
+          
+          # Pulling credentials from your existing Secret
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: auth-service-secrets
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: auth-service-secrets
+                key: POSTGRES_PASSWORD
+        
+        # Resources to prevent the DB from consuming all node memory
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+
+        # Where the actual data lives inside the container
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc

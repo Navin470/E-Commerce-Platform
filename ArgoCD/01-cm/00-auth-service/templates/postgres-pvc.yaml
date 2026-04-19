@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Secret
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: ecommerce
+  annotations:
+    # We want storage ready before the DB deployment starts
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # If you are on AWS EKS, you might need to specify a storageClassName 
+  # like 'gp2' or 'ebs-sc'. If left blank, it uses the cluster default.
+  # storageClassName: gp2 
+  resources:
+    requests:
+      storage: 1Gi
