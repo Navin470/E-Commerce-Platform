@@ -6,7 +6,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path  # <--- Add this exact name from your 'kubectl get sc'
   resources:
     requests:
       storage: 1Gi
