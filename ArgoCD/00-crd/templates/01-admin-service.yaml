@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: admin-service
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  source:
+    repoURL: 'https://github.com/Navin470/E-Commerce-Platform.git'
+    # Point to the OVERLAY folder, not the base
+    path: ArgoCD/01-cm/01-admin-service
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: ecommerce
