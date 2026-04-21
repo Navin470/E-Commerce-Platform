@@ -15,7 +15,6 @@ spec:
     repoURL: 'https://github.com/Navin470/E-Commerce-Platform.git'
     # Point to the OVERLAY folder, not the base
     path: ArgoCD/01-cm/01-admin-service
-          C:\Users\krnav\OneDrive\Desktop\E-Commerce-Platform\ArgoCD\01-cm\00-admin-service
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: ecommerce
