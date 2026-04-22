@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - auth-service.yaml
   - admin-service.yaml
+  - user-service.yaml
 
 # 2. Add a prefix to all resources (e.g., dev-frontend-service)
 # namePrefix: dev-

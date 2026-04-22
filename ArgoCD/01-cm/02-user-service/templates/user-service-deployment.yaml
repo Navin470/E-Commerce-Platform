@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: ecommerce
+  labels:
+    app: user-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-container
+        image: navin1199/user-service:36
+        ports:
+        - containerPort: 5005
+        env:
+          # 1. Get User from Secret
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: user-service-secrets
+                key: POSTGRES_USER
+          
+          # 2. Get Password from Secret
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: user-service-secrets
+                key: POSTGRES_PASSWORD
+
+          # 3. Get Secret Key for JWT (matches os.getenv("JWT_SECRET"))
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: user-service-secrets
+                key: JWT_SECRET
+
+          # 4. Construct DATABASE_URL for SQLAlchemy (matches os.getenv("DATABASE_URL"))
+          - name: DATABASE_URL
+            value: "postgresql://$(DB_USER):$(DB_PASS)@user-db:5432/user_db"
+        envFrom:
+        - configMapRef:
+            name: user-service-config
+            
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: ecommerce
+spec:
+  type: NodePort           # Changed from ClusterIP to NodePort
+  selector:
+    app: user-service
+  ports:
+    - protocol: TCP
+      port: 5005            # Internal Service Port
+      targetPort: 5005    # Must match your Flask app containerPort
+      nodePort: 32061     # Optional: You can specify a port between 30000-32767

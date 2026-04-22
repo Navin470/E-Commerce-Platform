@@ -76,21 +76,21 @@ services:
   #   depends_on:
   #     - product-db
 
-  # user-db:
-  #   image: postgres:15
-  #   environment:
-  #     POSTGRES_DB: user_db
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5436:5432"
+  user-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5436:5432"
 
-  # user-service:
-  #   build: ./service/user-service
-  #   ports:
-  #     - "5005:5005"
-  #   environment:
-  #     DATABASE_URL: postgresql://postgres:postgres@user-db:5432/user_db
-  #     JWT_SECRET: super-secret-key-change-in-production
-  #   depends_on:
-  #     - user-db
+  user-service:
+    build: ./service/user-service
+    ports:
+      - "5005:5005"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@user-db:5432/user_db
+      JWT_SECRET: super-secret-key-change-in-production
+    depends_on:
+      - user-db
