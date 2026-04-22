@@ -1,23 +1,23 @@
 services:
 
-  # admin-db:
-  #   image: postgres:15
-  #   environment:
-  #     POSTGRES_DB: admin_db
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5437:5432"
+  admin-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: admin_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5437:5432"
 
-  # admin-service:
-  #   build: ./service/admin-service
-  #   ports:
-  #     - "5001:5001"
-  #   environment:
-  #     DATABASE_URL: postgresql://postgres:postgres@admin-db:5432/admin_db
-  #     JWT_SECRET: super-secret-key-change-in-production
-  #   depends_on:
-  #     - admin-db
+  admin-service:
+    build: ./service/admin-service
+    ports:
+      - "5001:5001"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@admin-db:5432/admin_db
+      JWT_SECRET: super-secret-key-change-in-production
+    depends_on:
+      - admin-db
 
   auth-db:
     image: postgres:15
