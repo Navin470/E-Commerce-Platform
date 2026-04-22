@@ -1,54 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: user-db
   namespace: ecommerce
   labels:
-    app: user-service
+    app: user-db
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: user-service
+      app: user-db
   template:
     metadata:
       labels:
-        app: user-service
+        app: user-db
     spec:
       containers:
-      - name: user-container
-        image: navin1199/user-service:36
+      - name: postgres
+        image: postgres:15
         ports:
-        - containerPort: 5005
+        - containerPort: 5432
         env:
-          # 1. Get User from Secret
-          - name: DB_USER
+          # This name MUST match what you use in your app's DATABASE_URL
+          - name: POSTGRES_DB
+            value: "user_db"
+          
+          # Pulling credentials from your existing Secret
+          - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
                 name: user-service-secrets
                 key: POSTGRES_USER
-          
-          # 2. Get Password from Secret
-          - name: DB_PASS
+          - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: user-service-secrets
                 key: POSTGRES_PASSWORD
-
-          # 3. Get Secret Key for JWT (matches os.getenv("JWT_SECRET"))
-          - name: JWT_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: user-service-secrets
-                key: JWT_SECRET
-
-          # 4. Construct DATABASE_URL for SQLAlchemy (matches os.getenv("DATABASE_URL"))
-          - name: DATABASE_URL
-            value: "postgresql://$(DB_USER):$(DB_PASS)@user-db:5432/user_db"
-        envFrom:
-        - configMapRef:
-            name: user-service-config
-            
+          # - name: POSTGRES_USER
+          #   value: postgres
+          # - name: POSTGRES_PASSWORD
+          #   value: postgres
+        
+        # Resources to prevent the DB from consuming all node memory
         resources:
           limits:
             cpu: "500m"
@@ -57,18 +50,12 @@ spec:
             cpu: "250m"
             memory: "256Mi"
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: user-service
-  namespace: ecommerce
-spec:
-  type: NodePort           # Changed from ClusterIP to NodePort
-  selector:
-    app: user-service
-  ports:
-    - protocol: TCP
-      port: 5005            # Internal Service Port
-      targetPort: 5005   # Must match your Flask app containerPort
-      nodePort: 32061    # Optional: You can specify a port between 30000-32767
+        # Where the actual data lives inside the container
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-user
