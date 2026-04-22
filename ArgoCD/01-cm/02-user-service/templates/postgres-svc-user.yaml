@@ -5,7 +5,7 @@ metadata:
   namespace: ecommerce
   annotations:
     # Service should be ready when the DB deployment starts
-#   argocd.argoproj.io/sync-wave: "-1"
+  argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app: user-db           # This MUST match the labels in postgres-deploy.yaml
