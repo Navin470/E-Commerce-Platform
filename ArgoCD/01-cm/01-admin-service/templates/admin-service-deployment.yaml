@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: admin-container
-        image: navin1199/admin-service:29
+        image: navin1199/admin-service:32
         ports:
         - containerPort: 5001
         env:
