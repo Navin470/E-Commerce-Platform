@@ -19,7 +19,7 @@ spec:
       - name: admin-container
         image: navin1199/admin-service:29
         ports:
-        - containerPort: 5002
+        - containerPort: 5001
         env:
           # 1. Get User from Secret
           - name: DB_USER
@@ -68,7 +68,7 @@ metadata:
 spec:
   type: NodePort           # Changed from ClusterIP to NodePort
   selector:
-    app: auth-service
+    app: admin-service
   ports:
     - protocol: TCP
       port: 5001             # Internal Service Port
