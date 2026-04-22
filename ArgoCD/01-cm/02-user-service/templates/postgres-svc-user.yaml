@@ -8,7 +8,7 @@ metadata:
 #   argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
-    app: admin-db           # This MUST match the labels in postgres-deploy.yaml
+    app: user-db           # This MUST match the labels in postgres-deploy.yaml
   ports:
     - protocol: TCP
       port: 5432           # The port your App will connect to
