@@ -31,7 +31,7 @@ spec:
         DOCKER_IMAGE = "navin1199/frontend-service"
         DOCKER_TAG = "${BUILD_NUMBER}"
         // Updated Directory Path
-        SERVICE_DIR = "service/frontend-service" 
+        SERVICE_DIR = "admin-frontend" 
     }
 
     stages {
