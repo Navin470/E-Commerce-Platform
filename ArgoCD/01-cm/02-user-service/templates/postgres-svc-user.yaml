@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: user-db            # This MUST match the host in your DATABASE_URL
   namespace: ecommerce
-#   annotations:
-#     # Service should be ready when the DB deployment starts
-#   argocd.argoproj.io/sync-wave: "-1"
+  annotations:
+    # Service should be ready when the DB deployment starts
+  argocd.argoproj.io/sync-wave: "-1"
 spec:
   selector:
     app: user-db           # This MUST match the labels in postgres-deploy.yaml

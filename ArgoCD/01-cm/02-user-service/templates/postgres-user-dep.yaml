@@ -36,10 +36,6 @@ spec:
               secretKeyRef:
                 name: user-service-secrets
                 key: POSTGRES_PASSWORD
-          # - name: POSTGRES_USER
-          #   value: postgres
-          # - name: POSTGRES_PASSWORD
-          #   value: postgres
         
         # Resources to prevent the DB from consuming all node memory
         resources:
