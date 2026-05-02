@@ -38,43 +38,43 @@ services:
     depends_on:
       - auth-db
   
-  # order-db:
-  #   image: postgres:15
-  #   environment:
-  #     POSTGRES_DB: order_db
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5435:5432"
+  order-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5435:5432"
   
-  # order-service:
-  #   build: ./service/order-service
-  #   ports:
-  #     - "5003:5003"
-  #   environment:
-  #     DATABASE_URL: postgresql://postgres:postgres@order-db:5432/order_db
-  #     JWT_SECRET: super-secret-key-change-in-production
-  #   depends_on:
-  #     - order-db
+  order-service:
+    build: ./service/order-service
+    ports:
+      - "5003:5003"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@order-db:5432/order_db
+      JWT_SECRET: super-secret-key-change-in-production
+    depends_on:
+      - order-db
 
 
-  # product-db:
-  #   image: postgres:15
-  #   environment:
-  #     POSTGRES_DB: product_db
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #   ports:
-  #     - "5434:5432"
+  product-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
 
-  # product-service:
-  #   build: ./service/product-service
-  #   ports:
-  #     - "5004:5004"
-  #   environment:
-  #     DATABASE_URL: postgresql://postgres:postgres@product-db:5432/product_db
-  #   depends_on:
-  #     - product-db
+  product-service:
+    build: ./service/product-service
+    ports:
+      - "5004:5004"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@product-db:5432/product_db
+    depends_on:
+      - product-db
 
   user-db:
     image: postgres:15
