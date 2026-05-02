@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: admin-frontend
+  name: frontend
   namespace: argocd
 spec:
   project: default
@@ -13,7 +13,7 @@ spec:
       - CreateNamespace=true
   source:
     repoURL: 'https://github.com/Navin470/E-Commerce-Platform.git'
-    path: ArgoCD/01-cm/01-admin-service
+    path: ArgoCD/01-cm/03-frontend-service
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: ecommerce

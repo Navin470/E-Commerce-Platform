@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: ecommerce
+  labels:
+    app: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: navin1199/frontend-service:1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        env:
+        - name: VITE_API_URL
+          value: http://localhost:5173/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+  namespace: ecommerce
+spec:
+  type: NodePort
+  selector:
+    app: admin-frontend
+  ports:
+    - protocol: TCP
+      port: 80         # Internal cluster port
+      targetPort: 80   # Port on the container
+      nodePort: 30007  # The external port (must be between 30000-32767)
