@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: navin1199/frontend-service:1
+        image: navin1199/frontend-service:5
         ports:
         - containerPort: 80
         resources:
