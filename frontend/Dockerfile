@@ -20,4 +20,5 @@ COPY . .
 EXPOSE 3000
 
 # 8. Start the application
-CMD ["npm", "run", "dev", "--", "--host"]
+# CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "80"]
