@@ -17,9 +17,9 @@
 
 import axios from "axios";
 
+// Vite uses import.meta.env to access environment variables
 const API = axios.create({
-  // Port updated to 32000 to match image_0d9fb9.png
-  baseURL: "http://localhost:32000/auth", 
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5002", 
 });
 
 API.interceptors.request.use((config) => {

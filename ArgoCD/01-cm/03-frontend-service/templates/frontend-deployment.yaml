@@ -15,16 +15,16 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: navin1199/frontend-service:13
+        image: navin1199/frontend-service:31
         ports:
         - containerPort: 80
         resources:
           requests:
             cpu: "256m"
-            memory: "256Mi"
+            memory: "512Mi"  # Increased from 256Mi
           limits:
             cpu: "500m"
-            memory: "512Mi"
+            memory: "1Gi"    # Increased from 512Mi to prevent OOMKilled
         env:
         - name: VITE_API_URL
           valueFrom:
