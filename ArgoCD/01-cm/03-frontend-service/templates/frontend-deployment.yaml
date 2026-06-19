@@ -4,7 +4,7 @@ metadata:
   name: frontend
   namespace: ecommerce
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -15,16 +15,16 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: navin1199/frontend-service:31
+        image: navin1199/frontend-service:38
         ports:
         - containerPort: 80
         resources:
           requests:
             cpu: "256m"
-            memory: "512Mi"  # Increased from 256Mi
+            memory: "256Mi"
           limits:
             cpu: "500m"
-            memory: "1Gi"    # Increased from 512Mi to prevent OOMKilled
+            memory: "512Mi"
         env:
         - name: VITE_API_URL
           valueFrom:

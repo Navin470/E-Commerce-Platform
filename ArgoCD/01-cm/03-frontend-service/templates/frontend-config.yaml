@@ -5,4 +5,4 @@ metadata:
   namespace: ecommerce
 data:
   # This tells the browser where to find the auth-service
-  VITE_API_URL: "http://192.168.127.2:32000"
+  VITE_API_URL: "http://127.0.0.1:5002"
