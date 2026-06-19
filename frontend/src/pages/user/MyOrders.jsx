@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMyOrders } from "../../api/orderApi";
+import API from "../../api/axios";
 import Navbar from "../../components/Navbar";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function MyOrders() {
 
   const fetchOrders = async () => {
     try {
-      const res = await getMyOrders();
+      const res = await API.get("http://localhost:5003/orders/orders");
       setOrders(res.data);
     } catch (err) {
       toast.error("Failed to load orders");

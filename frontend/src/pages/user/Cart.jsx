@@ -4,7 +4,6 @@ import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import API from "../../api/axios";
 import toast from "react-hot-toast";
-import { createOrder } from "../../api/orderApi";
 
 export default function Cart() {
   const { cart, removeFromCart, clearCart, setCart } = useContext(CartContext);
@@ -48,10 +47,9 @@ export default function Cart() {
       const items = cart.map((item) => ({
         product_id: item.id,
         quantity: item.quantity,
-        price: item.price,
       }));
 
-      await createOrder({ items });
+      await API.post("http://localhost:5003/orders/orders", { items });
 
       toast.success("Order placed successfully 🎉");
       clearCart();

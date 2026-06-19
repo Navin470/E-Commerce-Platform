@@ -1,5 +1,5 @@
 # 1. Use the official Node.js image
-FROM node:22-alpine AS build
+FROM node:18-alpine
 
 # 2. Create and set the working directory
 WORKDIR /app
@@ -20,5 +20,4 @@ COPY . .
 EXPOSE 3000
 
 # 8. Start the application
-# CMD ["npm", "run", "dev", "--", "--host"]
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "80"]
+CMD ["npm", "start"]

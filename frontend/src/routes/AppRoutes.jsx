@@ -6,10 +6,6 @@ import ProductDetails from "../pages/user/ProductDetails";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Cart from "../pages/user/Cart";
 import OrderSuccess from "../pages/user/OrderSuccess";
-import Orders from "../pages/user/Orders";
-import OrderDetails from "../pages/user/OrderDetails";
-import Profile from "../pages/user/Profile";
-import AdminOrders from "../pages/admin/AdminOrders";
 
 const AppRoutes = () => {
   return (
@@ -24,24 +20,6 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Home />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/admin/orders"
-        element={
-          <ProtectedRoute>
-            <AdminOrders />
           </ProtectedRoute>
         }
       />
@@ -67,22 +45,6 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <OrderSuccess />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/orders"
-        element={
-          <ProtectedRoute>
-            <Orders />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/orders/:id"
-        element={
-          <ProtectedRoute>
-            <OrderDetails />
           </ProtectedRoute>
         }
       />
